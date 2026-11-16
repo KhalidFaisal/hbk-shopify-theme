@@ -99,22 +99,22 @@
       </div>
     {% else %}
       <!-- Automatic Mode: All Collections -->
-      {%- liquid
-        case section.settings.sort
-          when 'products_high'
-            assign sorted_collections = collections | sort: 'all_products_count' | reverse
-          when 'products_low'
-            assign sorted_collections = collections | sort: 'all_products_count'
-          when 'alphabetical'
-            assign sorted_collections = collections | sort: 'title'
-          when 'alphabetical_reversed'
-            assign sorted_collections = collections | sort: 'title' | reverse
-          else
-            assign sorted_collections = collections
-        endcase
-      -%}
+      {% paginate collections by section.settings.collections_per_page %}
+        {%- liquid
+          case section.settings.sort
+            when 'products_high'
+              assign sorted_collections = collections | sort: 'all_products_count' | reverse
+            when 'products_low'
+              assign sorted_collections = collections | sort: 'all_products_count'
+            when 'alphabetical'
+              assign sorted_collections = collections | sort: 'title'
+            when 'alphabetical_reversed'
+              assign sorted_collections = collections | sort: 'title' | reverse
+            else
+              assign sorted_collections = collections
+          endcase
+        -%}
 
-      {% paginate sorted_collections by section.settings.collections_per_page %}
         <div class="hbk-collections-grid" style="--col-desktop: {{ section.settings.columns_desktop | default: 4 }};">
           {% assign rendered_count = 0 %}
           {% for collection in sorted_collections %}
