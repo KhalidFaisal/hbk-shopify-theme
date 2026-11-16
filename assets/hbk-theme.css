@@ -503,8 +503,8 @@ button {
 .hbk-logo-text__title {
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: #FFFFFF;
   line-height: 1.1;
 }
@@ -661,7 +661,7 @@ button {
   align-items: center;
   gap: 10px;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1rem;
 }
 
@@ -780,9 +780,9 @@ button {
 .hbk-hero__title {
   font-family: var(--font-display);
   font-size: 4rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.98;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   margin-bottom: 20px;
   background: linear-gradient(180deg, #FFFFFF 0%, #D0D0D5 100%);
@@ -936,8 +936,8 @@ button {
   animation: hbkMarquee 26s linear infinite;
   font-family: var(--font-display);
   font-size: 0.95rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   color: #FFFFFF;
   flex-shrink: 0;
   min-width: 0;
@@ -983,8 +983,8 @@ button {
 .hbk-section-title {
   font-family: var(--font-display);
   font-size: 2.4rem;
-  font-weight: 900;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
   line-height: 1.1;
   word-break: break-word;
@@ -1092,7 +1092,8 @@ button {
 .hbk-col-card__title {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.015em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
@@ -1445,7 +1446,8 @@ button {
 .hbk-promo__title {
   font-family: var(--font-display);
   font-size: 2.5rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   line-height: 1.05;
   text-transform: uppercase;
   margin: 16px 0;
@@ -1547,7 +1549,8 @@ button {
 .hbk-story__title {
   font-family: var(--font-display);
   font-size: 2.6rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   line-height: 1.1;
   text-transform: uppercase;
   margin: 12px 0 24px;
@@ -1579,7 +1582,8 @@ button {
 .hbk-stat__num {
   font-family: var(--font-display);
   font-size: 2.2rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--hbk-red);
   line-height: 1;
 }
@@ -1816,8 +1820,8 @@ button {
 .hbk-cart-drawer__title {
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 /* Free Shipping Meter */
@@ -1990,7 +1994,8 @@ button {
   align-items: center;
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   margin-bottom: 6px;
 }
 
@@ -2117,7 +2122,8 @@ button {
 .hbk-footer__newsletter-title {
   font-family: var(--font-display);
   font-size: 1.6rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 10px 0 6px;
   word-break: break-word;
@@ -2501,7 +2507,8 @@ button {
 .hbk-pdp__title {
   font-family: var(--font-display);
   font-size: 2.2rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
   line-height: 1.1;
   margin-bottom: 16px;
@@ -2704,8 +2711,8 @@ button {
 .hbk-collection-banner__title {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   margin-bottom: 12px;
   line-height: 1.1;
@@ -2838,7 +2845,8 @@ button {
 .hbk-no-products h3 {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   margin-bottom: 8px;
   color: var(--hbk-text);
 }
