@@ -1,0 +1,94 @@
+{% comment %}
+  Product Grid Section (Homepage Showcase)
+  Directly renders product cards with titles, prices, swatches, and 1-click quick-add.
+{% endcomment %}
+
+{% assign collection = collections[section.settings.collection] | default: collections.all %}
+
+<section class="hbk-section hbk-section--products" id="HbkProducts">
+  <div class="hbk-container">
+    <div class="hbk-section-header hbk-flex-between">
+      <div>
+        <div class="hbk-section-tag">LATEST ARRIVALS</div>
+        <h2 class="hbk-section-title">{{ section.settings.title | default: 'SEASON 2026 DROPS' }}</h2>
+      </div>
+      
+      <!-- Filter Tabs -->
+      <div class="hbk-filter-tabs">
+        <button type="button" class="hbk-tab-btn active" data-filter="all">ALL</button>
+        <button type="button" class="hbk-tab-btn" data-filter="hoodies">HOODIES</button>
+        <button type="button" class="hbk-tab-btn" data-filter="tees">TEES</button>
+        <button type="button" class="hbk-tab-btn" data-filter="sweatsuits">SETS</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="hbk-products-grid" id="HbkProductsGrid">
+      {% if collection and collection.products.size > 0 %}
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        <!-- Default sample products if collection is unpopulated in theme customizer -->
+        {% for i in (1..8) %}
+          <div class="hbk-card hbk-card--sample">
+            <div class="hbk-card__media-wrap">
+              <span class="hbk-tag hbk-tag--drop">NEW DROP</span>
+              <div class="hbk-card__placeholder">
+                <img src="{{ 'hbk-logo.svg' | asset_url }}" width="60" height="60" alt="HBK">
+                <span>HBK VAULT ITEM</span>
+              </div>
+            </div>
+            <div class="hbk-card__content">
+              <div class="hbk-card__category">STREETWEAR</div>
+              <h3 class="hbk-card__title">HBK MONSTER GRAPHIC APPAREL</h3>
+              <div class="hbk-card__price-row">
+                <span class="hbk-card__price">$35.00</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- View All CTA -->
+    <div class="hbk-center-cta">
+      <a href="/collections/all" class="hbk-btn hbk-btn--outline hbk-btn--wide">
+        VIEW FULL CATALOG &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "SEASON 2026 DROPS"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12,
+      "label": "Products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Grid"
+    }
+  ]
+}
+{% endschema %}

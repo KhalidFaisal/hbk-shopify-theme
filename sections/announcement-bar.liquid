@@ -1,0 +1,47 @@
+{% comment %}
+  Announcement Bar Section
+{% endcomment %}
+
+<div class="hbk-announcement-bar" role="region" aria-label="Announcement">
+  <div class="hbk-announcement-bar__marquee">
+    <div class="hbk-announcement-bar__track">
+      <span>{{ section.settings.text_1 | default: 'FREE US SHIPPING ON ALL ORDERS OVER $75' }}</span>
+      <span class="hbk-announcement-bar__dot">•</span>
+      <span>{{ section.settings.text_2 | default: 'NEW SEASON 2026 HBK MONSTER DROP IS LIVE' }}</span>
+      <span class="hbk-announcement-bar__dot">•</span>
+      <span>{{ section.settings.text_3 | default: 'USE CODE HBK25 FOR 25% OFF SITEWIDE' }}</span>
+      <span class="hbk-announcement-bar__dot">•</span>
+      <span>{{ section.settings.text_1 | default: 'FREE US SHIPPING ON ALL ORDERS OVER $75' }}</span>
+      <span class="hbk-announcement-bar__dot">•</span>
+      <span>{{ section.settings.text_2 | default: 'NEW SEASON 2026 HBK MONSTER DROP IS LIVE' }}</span>
+      <span class="hbk-announcement-bar__dot">•</span>
+      <span>{{ section.settings.text_3 | default: 'USE CODE HBK25 FOR 25% OFF SITEWIDE' }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Announcement 1",
+      "default": "FREE US SHIPPING ON ALL ORDERS OVER $75"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Announcement 2",
+      "default": "NEW SEASON 2026 HBK MONSTER DROP IS LIVE"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Announcement 3",
+      "default": "USE CODE HBK25 FOR 25% OFF SITEWIDE"
+    }
+  ]
+}
+{% endschema %}

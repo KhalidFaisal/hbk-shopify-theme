@@ -1,0 +1,116 @@
+{% comment %}
+  HBK Streetwear Product Card Snippet
+  Solves the critical audit issue where products had no title or price.
+  Features: Badges, Secondary Hover Image, Title, Price, Color Swatches, and 1-Click Quick Add.
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_media = product.featured_media %}
+{% assign hover_media = product.media[1] | default: featured_media %}
+
+<div class="hbk-card" data-product-id="{{ product.id }}" data-handle="{{ product.handle }}">
+  <!-- Media Wrapper -->
+  <div class="hbk-card__media-wrap">
+    <!-- Badges -->
+    <div class="hbk-card__badges">
+      {% if product.compare_at_price > product.price %}
+        <span class="hbk-tag hbk-tag--sale">SALE</span>
+      {% elsif product.tags contains 'limited' or product.tags contains 'Limited' or forloop.index < 4 %}
+        <span class="hbk-tag hbk-tag--drop">LIMITED DROP</span>
+      {% endif %}
+    </div>
+
+    <!-- Wishlist Button -->
+    <button type="button" class="hbk-card__wishlist" aria-label="Add to wishlist" onclick="this.classList.toggle('active')">
+      {% render 'icon-heart' %}
+    </button>
+
+    <!-- Product Link & Images -->
+    <a href="{{ product.url }}" class="hbk-card__img-link">
+      {% if featured_media %}
+        <img 
+          src="{{ featured_media | image_url: width: 600 }}" 
+          alt="{{ product.title | escape }}"
+          class="hbk-card__img hbk-card__img--primary"
+          loading="lazy"
+          width="600"
+          height="750"
+        >
+        {% if hover_media and hover_media.id != featured_media.id %}
+          <img 
+            src="{{ hover_media | image_url: width: 600 }}" 
+            alt="{{ product.title | escape }} alternate view"
+            class="hbk-card__img hbk-card__img--secondary"
+            loading="lazy"
+            width="600"
+            height="750"
+          >
+        {% endif %}
+      {% else %}
+        <div class="hbk-card__placeholder">HBK APPAREL</div>
+      {% endif %}
+    </a>
+
+    <!-- Quick Size Add Overlay (Desktop Hover & Mobile Tap) -->
+    <div class="hbk-card__quick-add">
+      <div class="hbk-card__quick-title">QUICK ADD SIZE:</div>
+      <div class="hbk-card__sizes">
+        {% for variant in product.variants %}
+          {% if variant.available %}
+            <button 
+              type="button" 
+              class="hbk-size-btn js-quick-add" 
+              data-variant-id="{{ variant.id }}"
+              data-product-title="{{ product.title | escape }}"
+              data-variant-title="{{ variant.title | escape }}"
+              data-price="{{ variant.price | money }}"
+              data-img="{{ featured_media | image_url: width: 200 }}"
+            >
+              {{ variant.option1 | default: variant.title }}
+            </button>
+          {% else %}
+            <span class="hbk-size-btn hbk-size-btn--soldout" title="Sold Out">{{ variant.option1 | default: variant.title }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Info -->
+  <div class="hbk-card__content">
+    <!-- Category / Drop tag -->
+    <div class="hbk-card__category">{{ product.type | default: 'STREETWEAR' }}</div>
+
+    <!-- Product Title -->
+    <h3 class="hbk-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <!-- Price Section -->
+    <div class="hbk-card__price-row">
+      <span class="hbk-card__price">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <span class="hbk-card__compare-price">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Color Swatches Preview if options contain Color -->
+    {% assign has_colors = false %}
+    {% for option in product.options_with_values %}
+      {% assign option_name = option.name | downcase %}
+      {% if option_name contains 'color' or option_name contains 'colour' %}
+        {% assign has_colors = true %}
+        <div class="hbk-card__swatches">
+          {% for value in option.values limit: 5 %}
+            {% assign color_slug = value | downcase | replace: ' ', '-' %}
+            <span 
+              class="hbk-swatch-dot hbk-swatch-dot--{{ color_slug }}" 
+              title="{{ value }}"
+              style="background-color: {{ color_slug }};"
+            ></span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,179 @@
+{% comment %}
+  Main Product Detail Section (PDP)
+  Conversion-optimized product page with size buttons, stock scarcity, and accordions.
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<section class="hbk-section hbk-pdp" id="HbkProductDetail" data-product-id="{{ product.id }}">
+  <div class="hbk-container">
+    <div class="hbk-pdp__layout">
+      <!-- Left Column: Gallery -->
+      <div class="hbk-pdp__gallery">
+        <div class="hbk-pdp__main-image-wrap">
+          <img 
+            id="HbkMainProductImg" 
+            src="{{ product.featured_media | image_url: width: 1000 }}" 
+            alt="{{ product.title | escape }}"
+            class="hbk-pdp__main-img"
+          >
+        </div>
+
+        {% if product.media.size > 1 %}
+          <div class="hbk-pdp__thumbs">
+            {% for media in product.media %}
+              <button 
+                type="button" 
+                class="hbk-pdp__thumb-btn {% if forloop.first %}active{% endif %}"
+                data-img-src="{{ media | image_url: width: 1000 }}"
+              >
+                <img src="{{ media | image_url: width: 150 }}" alt="Thumb {{ forloop.index }}" width="70" height="90">
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Column: Product Buy Box -->
+      <div class="hbk-pdp__info">
+        <div class="hbk-pdp__badge-row">
+          <span class="hbk-tag hbk-tag--drop">LIMITED DROP</span>
+          <span class="hbk-pdp__sku">SKU: HBK-{{ product.id | slice: -4, 4 }}</span>
+        </div>
+
+        <h1 class="hbk-pdp__title">{{ product.title }}</h1>
+
+        <!-- Price Section -->
+        <div class="hbk-pdp__price-wrap">
+          <span class="hbk-pdp__price" id="HbkPdpPrice">{{ current_variant.price | money }}</span>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="hbk-pdp__compare-price">{{ current_variant.compare_at_price | money }}</span>
+            <span class="hbk-badge hbk-badge--sale">SAVE {{ current_variant.compare_at_price | minus: current_variant.price | money }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Stock Scarcity Alert -->
+        <div class="hbk-pdp__scarcity">
+          <span class="hbk-pulse-dot hbk-pulse-dot--red"></span>
+          <span><strong>Only 2 pieces left in stock!</strong> High demand from recent drop.</span>
+        </div>
+
+        <!-- Installments info -->
+        <div class="hbk-pdp__installments">
+          Pay in 4 interest-free payments with <strong>Shop Pay</strong> or <strong>Klarna</strong>.
+        </div>
+
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="HbkAddToCartForm" class="hbk-pdp__form">
+          <input type="hidden" name="id" id="HbkVariantId" value="{{ current_variant.id }}">
+
+          <!-- Size Selector -->
+          <div class="hbk-pdp__option-block">
+            <div class="hbk-flex-between">
+              <label class="hbk-option-label">SELECT SIZE:</label>
+              <button type="button" class="hbk-size-guide-trigger js-open-size-guide">SIZE GUIDE</button>
+            </div>
+            <div class="hbk-size-pills">
+              {% for variant in product.variants %}
+                <button 
+                  type="button" 
+                  class="hbk-size-pill {% if variant.id == current_variant.id %}selected{% endif %} {% unless variant.available %}sold-out{% endunless %}"
+                  data-variant-id="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  data-available="{{ variant.available }}"
+                >
+                  {{ variant.option1 | default: variant.title }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Quantity Stepper -->
+          <div class="hbk-pdp__qty-row">
+            <label class="hbk-option-label">QUANTITY:</label>
+            <div class="hbk-qty-stepper">
+              <button type="button" class="hbk-qty-btn js-pdp-qty-change" data-delta="-1">-</button>
+              <input type="number" name="quantity" id="HbkPdpQty" value="1" min="1" class="hbk-qty-input">
+              <button type="button" class="hbk-qty-btn js-pdp-qty-change" data-delta="1">+</button>
+            </div>
+          </div>
+
+          <!-- Add to Cart CTA -->
+          <div class="hbk-pdp__submit-row">
+            <button type="submit" class="hbk-btn hbk-btn--primary hbk-btn--full hbk-btn--glow" id="HbkAddToCartBtn">
+              ADD TO STASH &rarr;
+            </button>
+          </div>
+        </form>
+
+        <!-- Trust Features -->
+        <div class="hbk-pdp__trust-grid">
+          <div class="hbk-trust-item">
+            <span class="hbk-trust-icon">⚡</span>
+            <span>Fast US Dispatch (2-4 Days)</span>
+          </div>
+          <div class="hbk-trust-item">
+            <span class="hbk-trust-icon">🔄</span>
+            <span>14-Day Hassle-Free Returns</span>
+          </div>
+          <div class="hbk-trust-item">
+            <span class="hbk-trust-icon">🔥</span>
+            <span>100% Authentic Long Island Original</span>
+          </div>
+        </div>
+
+        <!-- Collapsible Details Accordions -->
+        <div class="hbk-accordions">
+          <details class="hbk-accordion" open>
+            <summary class="hbk-accordion__title">
+              <span>DESCRIPTION & DETAILS</span>
+              <span class="hbk-accordion__icon">+</span>
+            </summary>
+            <div class="hbk-accordion__body">
+              {{ product.description | default: 'Signature Heart Break Kids apparel engineered with premium heavyweight cotton and fleece. Distinctive graphics, ribbed trims, and durable street styling.' }}
+            </div>
+          </details>
+
+          <details class="hbk-accordion">
+            <summary class="hbk-accordion__title">
+              <span>SIZING & ATHLETIC FIT</span>
+              <span class="hbk-accordion__icon">+</span>
+            </summary>
+            <div class="hbk-accordion__body">
+              <p>Standard streetwear fit. For an oversized look, we recommend sizing up one size.</p>
+              <table class="hbk-size-table">
+                <thead>
+                  <tr><th>Size</th><th>Chest (in)</th><th>Length (in)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>S</td><td>38 - 40</td><td>27</td></tr>
+                  <tr><td>M</td><td>40 - 42</td><td>28</td></tr>
+                  <tr><td>L</td><td>42 - 44</td><td>29</td></tr>
+                  <tr><td>XL</td><td>44 - 46</td><td>30</td></tr>
+                  <tr><td>XXL</td><td>46 - 48</td><td>31</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details class="hbk-accordion">
+            <summary class="hbk-accordion__title">
+              <span>SHIPPING & RETURNS</span>
+              <span class="hbk-accordion__icon">+</span>
+            </summary>
+            <div class="hbk-accordion__body">
+              <p>Free standard US shipping on all orders over $75. Orders ship from our New York facility within 24-48 business hours.</p>
+              <p>We stand by our products 100%. If you need an exchange or refund, contact us within 14 days of delivery.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main Product",
+  "settings": []
+}
+{% endschema %}

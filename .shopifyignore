@@ -1,0 +1,9 @@
+# Files ignored by Shopify GitHub integration
+.git
+.github
+.gitignore
+.shopifyignore
+README.md
+preview.html
+*.zip
+*.log

@@ -1,0 +1,372 @@
+{% comment %}
+  Main List Collections Section (Collections & Categories Directory)
+  Renders at /collections to showcase all HBK drops, categories, and archive collections.
+{% endcomment %}
+
+<section class="hbk-section hbk-collection-page hbk-list-collections-page" id="HbkListCollections">
+  <div class="hbk-container">
+    <!-- Header Banner -->
+    <div class="hbk-collection-banner">
+      <div class="hbk-section-tag">{{ section.settings.tag | default: 'ARCHIVE // DROP DIRECTORY' }}</div>
+      <h1 class="hbk-collection-banner__title">{{ section.settings.title | default: 'ALL HBK COLLECTIONS' }}</h1>
+      {% if section.settings.description != blank %}
+        <div class="hbk-collection-banner__desc">{{ section.settings.description }}</div>
+      {% endif %}
+      <div class="hbk-collection-banner__count">
+        {% if section.blocks.size > 0 %}
+          {{ section.blocks.size }} CURATED COLLECTIONS
+        {% elsif collections.size > 0 %}
+          {{ collections.size }} COLLECTIONS AVAILABLE
+        {% else %}
+          5 CATEGORIES AVAILABLE
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Quick Navigation Toolbar -->
+    <div class="hbk-collection-toolbar">
+      <div class="hbk-filter-pills">
+        <a href="/collections" class="hbk-pill active">ALL CATEGORIES</a>
+        <a href="/collections/all" class="hbk-pill">ALL DROPS</a>
+        <a href="/collections/hoodies" class="hbk-pill">HOODIES</a>
+        <a href="/collections/t-shirts" class="hbk-pill">TEES</a>
+        <a href="/collections/heartbreakkids" class="hbk-pill">SWEATSUITS</a>
+        <a href="/collections/kids" class="hbk-pill">KIDS</a>
+        <a href="/collections/hbk-accessories" class="hbk-pill">ACCESSORIES</a>
+      </div>
+
+      <div class="hbk-sort-wrap">
+        <label for="HbkCategorySort" class="hbk-sort-label">VIEW:</label>
+        <select id="HbkCategorySort" class="hbk-sort-select" onchange="if(this.value) location = this.value;">
+          <option value="/collections" selected>All Categories Grid</option>
+          <option value="/collections/all">All Products Archive</option>
+          <option value="/collections/hoodies">Hoodies & Fleece</option>
+          <option value="/collections/t-shirts">Graphic Tees</option>
+          <option value="/collections/heartbreakkids">Sweatsuits & Sets</option>
+          <option value="/collections/kids">Kids Club</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Collections Grid -->
+    {% if section.settings.display_type == 'selected' and section.blocks.size > 0 %}
+      <!-- Merchant Selected Blocks -->
+      <div class="hbk-collections-grid" style="--col-desktop: {{ section.settings.columns_desktop | default: 4 }};">
+        {% for block in section.blocks %}
+          {% assign col = block.settings.collection %}
+          {% if col != blank %}
+            {% assign col_img = block.settings.custom_image | default: col.featured_image | default: col.image | default: col.products.first.featured_image %}
+            {% assign col_title = block.settings.custom_title | default: col.title %}
+            {% assign col_url = col.url %}
+            {% assign col_count = col.all_products_count %}
+            {% assign col_badge = block.settings.custom_badge | default: 'COLLECTION' %}
+          {% else %}
+            {% assign col_img = block.settings.custom_image %}
+            {% assign col_title = block.settings.custom_title | default: 'HBK Collection' %}
+            {% assign col_url = '/collections/all' %}
+            {% assign col_count = 0 %}
+            {% assign col_badge = block.settings.custom_badge | default: 'FEATURED' %}
+          {% endif %}
+
+          <a href="{{ col_url }}" class="hbk-col-card" {{ block.shopify_attributes }}>
+            <div class="hbk-col-card__img-wrap">
+              {% if col_img != blank %}
+                <img 
+                  src="{{ col_img | image_url: width: 800 }}" 
+                  alt="{{ col_title | escape }}" 
+                  class="hbk-col-card__img" 
+                  loading="lazy"
+                  width="800"
+                  height="1000"
+                >
+              {% else %}
+                <img 
+                  src="https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg" 
+                  alt="{{ col_title | escape }}" 
+                  class="hbk-col-card__img" 
+                  loading="lazy"
+                >
+              {% endif %}
+              <div class="hbk-col-card__overlay"></div>
+            </div>
+            <div class="hbk-col-card__content">
+              <span class="hbk-col-card__badge">{{ col_badge }}</span>
+              <h3 class="hbk-col-card__title">{{ col_title | escape }}</h3>
+              <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Automatic Mode: All Collections -->
+      {%- liquid
+        case section.settings.sort
+          when 'products_high'
+            assign sorted_collections = collections | sort: 'all_products_count' | reverse
+          when 'products_low'
+            assign sorted_collections = collections | sort: 'all_products_count'
+          when 'alphabetical'
+            assign sorted_collections = collections | sort: 'title'
+          when 'alphabetical_reversed'
+            assign sorted_collections = collections | sort: 'title' | reverse
+          else
+            assign sorted_collections = collections
+        endcase
+      -%}
+
+      {% paginate sorted_collections by section.settings.collections_per_page %}
+        <div class="hbk-collections-grid" style="--col-desktop: {{ section.settings.columns_desktop | default: 4 }};">
+          {% assign rendered_count = 0 %}
+          {% for collection in sorted_collections %}
+            {% if collection.handle == 'frontpage' %}
+              {% continue %}
+            {% endif %}
+            {% if section.settings.filter_empty and collection.all_products_count == 0 %}
+              {% continue %}
+            {% endif %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+
+            {%- assign col_image = collection.featured_image | default: collection.image | default: collection.products.first.featured_image -%}
+            <a href="{{ collection.url }}" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                {% if col_image != blank %}
+                  <img 
+                    src="{{ col_image | image_url: width: 800 }}" 
+                    alt="{{ collection.title | escape }}" 
+                    class="hbk-col-card__img" 
+                    loading="lazy"
+                    width="800"
+                    height="1000"
+                  >
+                {% else %}
+                  {%- case collection.handle -%}
+                    {%- when 'hoodies' -%}
+                      {%- assign fallback_img = 'https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg' -%}
+                    {%- when 't-shirts' -%}
+                      {%- assign fallback_img = 'https://heartbreakkidsli.com/cdn/shop/files/SliderN_1400x.jpg' -%}
+                    {%- when 'heartbreakkids' -%}
+                      {%- assign fallback_img = 'https://heartbreakkidsli.com/cdn/shop/products/e7f11446064cb6f346846fb6f6f2ab57_1024x1024.jpg?v=1662843917' -%}
+                    {%- when 'kids' -%}
+                      {%- assign fallback_img = 'https://heartbreakkidsli.com/cdn/shop/files/IMG_8604_1024x1024.jpg?v=1689280000' -%}
+                    {%- else -%}
+                      {%- assign fallback_img = 'https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg' -%}
+                  {%- endcase -%}
+                  <img 
+                    src="{{ fallback_img }}" 
+                    alt="{{ collection.title | escape }}" 
+                    class="hbk-col-card__img" 
+                    loading="lazy"
+                  >
+                {% endif %}
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">
+                  {% if collection.all_products_count > 0 %}
+                    {{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'ITEM', 'ITEMS' }}
+                  {% else %}
+                    DROP COLLECTION
+                  {% endif %}
+                </span>
+                <h3 class="hbk-col-card__title">{{ collection.title | escape }}</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+          {% endfor %}
+
+          {% if rendered_count == 0 %}
+            <!-- Signature Fallback Cards (Ensures page never renders blank) -->
+            <a href="/collections/hoodies" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                <img src="https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg" alt="Hoodies & Fleece" class="hbk-col-card__img" loading="lazy">
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">MOST POPULAR</span>
+                <h3 class="hbk-col-card__title">HOODIES & FLEECE</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+
+            <a href="/collections/t-shirts" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                <img src="https://heartbreakkidsli.com/cdn/shop/files/SliderN_1400x.jpg" alt="Graphic Tees" class="hbk-col-card__img" loading="lazy">
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">STAPLES</span>
+                <h3 class="hbk-col-card__title">GRAPHIC TEES</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+
+            <a href="/collections/heartbreakkids" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                <img src="https://heartbreakkidsli.com/cdn/shop/products/e7f11446064cb6f346846fb6f6f2ab57_1024x1024.jpg?v=1662843917" alt="Sweatsuits & Sets" class="hbk-col-card__img" loading="lazy">
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">FULL SETS</span>
+                <h3 class="hbk-col-card__title">SWEATSUITS & SETS</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+
+            <a href="/collections/kids" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                <img src="https://heartbreakkidsli.com/cdn/shop/files/IMG_8604_1024x1024.jpg?v=1689280000" alt="HBK Kids Club" class="hbk-col-card__img" loading="lazy">
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">YOUTH DROP</span>
+                <h3 class="hbk-col-card__title">HBK KIDS CLUB</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+
+            <a href="/collections/hbk-accessories" class="hbk-col-card">
+              <div class="hbk-col-card__img-wrap">
+                <img src="https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg" alt="Accessories & Vault" class="hbk-col-card__img" loading="lazy">
+                <div class="hbk-col-card__overlay"></div>
+              </div>
+              <div class="hbk-col-card__content">
+                <span class="hbk-col-card__badge">LIMITED VAULT</span>
+                <h3 class="hbk-col-card__title">ACCESSORIES & VAULT</h3>
+                <span class="hbk-col-card__link">SHOP CATEGORY &rarr;</span>
+              </div>
+            </a>
+          {% endif %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+          <div class="hbk-pagination">
+            {{ paginate | default_pagination }}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections Directory",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Section Tag",
+      "default": "ARCHIVE // DROP DIRECTORY"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "ALL HBK COLLECTIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Explore iconic silhouettes, heavyweight fleece, matching sets, and limited vault drops across all categories."
+    },
+    {
+      "type": "select",
+      "id": "display_type",
+      "label": "Select collections to show",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "All collections"
+        },
+        {
+          "value": "selected",
+          "label": "Selected blocks"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sort",
+      "label": "Sort collections by",
+      "default": "alphabetical",
+      "options": [
+        {
+          "value": "alphabetical",
+          "label": "Alphabetically, A-Z"
+        },
+        {
+          "value": "alphabetical_reversed",
+          "label": "Alphabetically, Z-A"
+        },
+        {
+          "value": "date",
+          "label": "Date, new to old"
+        },
+        {
+          "value": "products_high",
+          "label": "Product count, high to low"
+        },
+        {
+          "value": "products_low",
+          "label": "Product count, low to high"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 16,
+      "label": "Collections per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_empty",
+      "label": "Hide collections with 0 products",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (optional)"
+        },
+        {
+          "type": "text",
+          "id": "custom_badge",
+          "label": "Custom Badge (optional)",
+          "placeholder": "MOST POPULAR"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

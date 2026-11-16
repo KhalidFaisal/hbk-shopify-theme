@@ -1,0 +1,101 @@
+{% comment %}
+  Featured Collections Grid Section
+  Fixes the audit issue of naked grey placeholder boxes on the live site.
+{% endcomment %}
+
+<section class="hbk-section" id="HbkCollections">
+  <div class="hbk-container">
+    <div class="hbk-section-header">
+      <div class="hbk-section-tag">CURATED CATEGORIES</div>
+      <h2 class="hbk-section-title">EXPLORE THE ARCHIVE</h2>
+      <p class="hbk-section-sub">Shop iconic silhouettes and signature monster graphics across all collections.</p>
+    </div>
+
+    <div class="hbk-collections-grid">
+      <!-- Collection 1: Hoodies -->
+      <a href="/collections/hoodies" class="hbk-col-card">
+        <div class="hbk-col-card__img-wrap">
+          <img 
+            src="https://heartbreakkidsli.com/cdn/shop/files/SliderP_7c2ce295-02a4-40e9-a12c-270e279dc7da_1400x.jpg" 
+            alt="HBK Hoodies" 
+            class="hbk-col-card__img" 
+            loading="lazy"
+          >
+          <div class="hbk-col-card__overlay"></div>
+        </div>
+        <div class="hbk-col-card__content">
+          <span class="hbk-col-card__badge">MOST POPULAR</span>
+          <h3 class="hbk-col-card__title">HOODIES & FLEECE</h3>
+          <span class="hbk-col-card__link">SHOP HOODIES &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Collection 2: Graphic Tees -->
+      <a href="/collections/t-shirts" class="hbk-col-card">
+        <div class="hbk-col-card__img-wrap">
+          <img 
+            src="https://heartbreakkidsli.com/cdn/shop/files/SliderN_1400x.jpg" 
+            alt="HBK Graphic Tees" 
+            class="hbk-col-card__img" 
+            loading="lazy"
+          >
+          <div class="hbk-col-card__overlay"></div>
+        </div>
+        <div class="hbk-col-card__content">
+          <span class="hbk-col-card__badge">STAPLES</span>
+          <h3 class="hbk-col-card__title">GRAPHIC TEES</h3>
+          <span class="hbk-col-card__link">SHOP TEES &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Collection 3: Sweatsuits & Sets -->
+      <a href="/collections/heartbreakkids" class="hbk-col-card">
+        <div class="hbk-col-card__img-wrap">
+          <img 
+            src="https://heartbreakkidsli.com/cdn/shop/products/e7f11446064cb6f346846fb6f6f2ab57_1024x1024.jpg?v=1662843917" 
+            alt="HBK Sweatsuits" 
+            class="hbk-col-card__img" 
+            loading="lazy"
+          >
+          <div class="hbk-col-card__overlay"></div>
+        </div>
+        <div class="hbk-col-card__content">
+          <span class="hbk-col-card__badge">FULL SETS</span>
+          <h3 class="hbk-col-card__title">SWEATSUITS & JOGGERS</h3>
+          <span class="hbk-col-card__link">SHOP SETS &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Collection 4: Kids -->
+      <a href="/collections/kids" class="hbk-col-card">
+        <div class="hbk-col-card__img-wrap">
+          <img 
+            src="https://heartbreakkidsli.com/cdn/shop/files/IMG_8604_1024x1024.jpg?v=1689280000" 
+            alt="HBK Kids" 
+            class="hbk-col-card__img" 
+            loading="lazy"
+            onerror="this.src='https://heartbreakkidsli.com/cdn/shop/files/SliderN_1400x.jpg'"
+          >
+          <div class="hbk-col-card__overlay"></div>
+        </div>
+        <div class="hbk-col-card__content">
+          <span class="hbk-col-card__badge">YOUTH DROP</span>
+          <h3 class="hbk-col-card__title">HBK KIDS CLUB</h3>
+          <span class="hbk-col-card__link">SHOP KIDS &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collections",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Featured Collections"
+    }
+  ]
+}
+{% endschema %}

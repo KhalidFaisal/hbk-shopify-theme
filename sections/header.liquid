@@ -1,0 +1,130 @@
+{% comment %}
+  Header Section
+  Features: Unified single-row navigation, centered mascot logo, utility actions, mega-menu, and mobile drawer.
+{% endcomment %}
+
+<header class="hbk-header" id="HbkHeader">
+  <div class="hbk-container hbk-header__inner">
+    <!-- Mobile Menu Trigger -->
+    <div class="hbk-header__mobile-toggle">
+      <button type="button" class="hbk-icon-btn js-toggle-menu" aria-label="Toggle navigation menu" id="HbkMenuBtn">
+        {% render 'icon-menu' %}
+      </button>
+    </div>
+
+    <!-- Desktop Navigation Left -->
+    <nav class="hbk-header__nav hbk-header__nav--desktop" aria-label="Main Navigation">
+      <ul class="hbk-nav-list">
+        <li class="hbk-nav-item">
+          <a href="/collections/all" class="hbk-nav-link">SHOP ALL</a>
+        </li>
+        <li class="hbk-nav-item hbk-has-dropdown">
+          <a href="/collections/hoodies" class="hbk-nav-link">
+            HOODIES
+            {% render 'icon-chevron' %}
+          </a>
+          <div class="hbk-dropdown">
+            <a href="/collections/hoodies" class="hbk-dropdown-link">All Hoodies</a>
+            <a href="/products/hbk-graffiti-hoodie" class="hbk-dropdown-link">Graffiti Edition</a>
+            <a href="/products/hbk-monster-hoodie-3" class="hbk-dropdown-link">Monster Full-Zip</a>
+            <a href="/products/hbk-iced-out-zip-hoodie" class="hbk-dropdown-link">Iced Out Zip Hoodie</a>
+          </div>
+        </li>
+        <li class="hbk-nav-item">
+          <a href="/collections/t-shirts" class="hbk-nav-link">TEES</a>
+        </li>
+        <li class="hbk-nav-item">
+          <a href="/collections/heartbreakkids" class="hbk-nav-link">SWEATSUITS</a>
+        </li>
+        <li class="hbk-nav-item">
+          <a href="/collections/kids" class="hbk-nav-link">KIDS</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Center Mascot Logo -->
+    <div class="hbk-header__logo">
+      <a href="/" class="hbk-logo-link" aria-label="Heart Break Kids Apparel Homepage">
+        <div class="hbk-logo-icon">
+          <img src="{{ 'hbk-logo.svg' | asset_url }}" alt="Heart Break Kids Monster Logo" width="54" height="54">
+        </div>
+        <div class="hbk-logo-text">
+          <span class="hbk-logo-text__title">HEART BREAK KIDS</span>
+          <span class="hbk-logo-text__subtitle">LONG ISLAND • NY</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Desktop & Mobile Header Actions (Right) -->
+    <div class="hbk-header__actions">
+      <!-- Search Button -->
+      <button type="button" class="hbk-icon-btn js-toggle-search" aria-label="Search store">
+        {% render 'icon-search' %}
+      </button>
+
+      <!-- Customer Account Link -->
+      <a href="/account" class="hbk-icon-btn hbk-hide-mobile" aria-label="Account">
+        {% render 'icon-user' %}
+      </a>
+
+      <!-- Slide-Out Cart Trigger -->
+      <button type="button" class="hbk-icon-btn hbk-cart-trigger js-toggle-cart" aria-label="Open cart drawer" id="HbkCartBtn">
+        {% render 'icon-cart' %}
+        <span class="hbk-cart-badge" id="HbkCartCount">{{ cart.item_count | default: 0 }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div class="hbk-mobile-drawer" id="HbkMobileDrawer" aria-hidden="true">
+  <div class="hbk-mobile-drawer__overlay js-toggle-menu"></div>
+  <div class="hbk-mobile-drawer__content">
+    <div class="hbk-mobile-drawer__header">
+      <div class="hbk-mobile-drawer__brand">
+        <img src="{{ 'hbk-logo.svg' | asset_url }}" alt="HBK" width="36" height="36">
+        <span>HBK APPAREL</span>
+      </div>
+      <button type="button" class="hbk-icon-btn js-toggle-menu" aria-label="Close menu">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+
+    <nav class="hbk-mobile-nav">
+      <ul class="hbk-mobile-nav__list">
+        <li><a href="/" class="hbk-mobile-nav__link">HOME</a></li>
+        <li><a href="/collections/all" class="hbk-mobile-nav__link">SHOP ALL DROPS</a></li>
+        <li><a href="/collections/hoodies" class="hbk-mobile-nav__link">HOODIES & SWEATSHIRTS</a></li>
+        <li><a href="/collections/t-shirts" class="hbk-mobile-nav__link">GRAPHIC TEES</a></li>
+        <li><a href="/collections/heartbreakkids" class="hbk-mobile-nav__link">SWEATSUITS & JOGGERS</a></li>
+        <li><a href="/collections/kids" class="hbk-mobile-nav__link">HBK KIDS CLUB</a></li>
+        <li><a href="/collections/hbk-accessories" class="hbk-mobile-nav__link">ACCESSORIES & VAULT</a></li>
+      </ul>
+    </nav>
+
+    <div class="hbk-mobile-drawer__footer">
+      <div class="hbk-mobile-drawer__meta">
+        <a href="/account" class="hbk-btn hbk-btn--outline hbk-btn--full">CUSTOMER ACCOUNT</a>
+        <a href="/pages/order-tracking" class="hbk-mobile-link">TRACK YOUR ORDER</a>
+        <a href="/pages/contact-us" class="hbk-mobile-link">NEED HELP? CONTACT US</a>
+      </div>
+      <div class="hbk-mobile-drawer__promo">
+        <span class="hbk-tag hbk-tag--lime">PROMO</span> Use Code <strong>HBK25</strong> for 25% Off
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main Navigation Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

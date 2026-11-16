@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0C0C0E">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts: Syne, Space Grotesk, Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <title>
+    {{ page_title }}
+    {% if current_tags %}&ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}
+    {% if current_page != 1 %}&ndash; Page {{ current_page }}{% endif %}
+    {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  <!-- Theme Stylesheet -->
+  {{ 'hbk-theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Shopify Core Header Scripts -->
+  {{ content_for_header }}
+</head>
+
+<body class="hbk-body template-{{ template.name | handle }}">
+  <a class="hbk-skip-link visually-hidden" href="#MainContent">Skip to content</a>
+
+  <!-- Top Announcement Bar -->
+  {% section 'announcement-bar' %}
+
+  <!-- Unified Single-Row Header -->
+  {% section 'header' %}
+
+  <!-- Main Content Area -->
+  <main id="MainContent" class="hbk-main" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Modern Footer -->
+  {% section 'footer' %}
+
+  <!-- Slide-Out Cart Drawer -->
+  {% section 'cart-drawer' %}
+
+  <!-- Mobile Bottom Navigation Dock -->
+  {% section 'mobile-dock' %}
+
+  <!-- Search Modal Overlay -->
+  <div class="hbk-search-modal" id="HbkSearchModal" aria-hidden="true" role="dialog">
+    <div class="hbk-search-modal__overlay js-toggle-search"></div>
+    <div class="hbk-search-modal__panel">
+      <div class="hbk-container">
+        <div class="hbk-search-modal__header">
+          <form action="/search" method="get" class="hbk-search-modal__form">
+            <input type="hidden" name="type" value="product">
+            <div class="hbk-search-input-wrap">
+              {% render 'icon-search' %}
+              <input 
+                type="search" 
+                name="q" 
+                class="hbk-search-input" 
+                placeholder="Search hoodies, tees, sweatsuits..." 
+                autocomplete="off"
+                autofocus
+              >
+            </div>
+          </form>
+          <button type="button" class="hbk-icon-btn js-toggle-search" aria-label="Close search">
+            {% render 'icon-close' %}
+          </button>
+        </div>
+        <div class="hbk-search-modal__quick-tags">
+          <span>POPULAR SEARCHES:</span>
+          <a href="/search?q=monster">Monster</a>
+          <a href="/search?q=graffiti">Graffiti</a>
+          <a href="/search?q=hoodie">Hoodies</a>
+          <a href="/search?q=sweatsuit">Sweatsuits</a>
+          <a href="/search?q=pink">Pink</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Main JavaScript -->
+  {{ 'hbk-theme.js' | asset_url | script_tag }}
+</body>
+</html>

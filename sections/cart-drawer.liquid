@@ -1,0 +1,119 @@
+{% comment %}
+  Slide-Out AJAX Cart Drawer Section
+  Replaces the clunky full-page cart redirect with an instant conversion drawer.
+{% endcomment %}
+
+<div class="hbk-cart-drawer" id="HbkCartDrawer" aria-hidden="true" role="dialog" aria-modal="true">
+  <!-- Backdrop Overlay -->
+  <div class="hbk-cart-drawer__overlay js-toggle-cart"></div>
+
+  <!-- Drawer Container -->
+  <div class="hbk-cart-drawer__panel">
+    <!-- Drawer Header -->
+    <div class="hbk-cart-drawer__header">
+      <div class="hbk-cart-drawer__title-wrap">
+        <h3 class="hbk-cart-drawer__title">YOUR HBK STASH</h3>
+        <span class="hbk-badge hbk-badge--dark" id="HbkDrawerCount">({{ cart.item_count | default: 0 }})</span>
+      </div>
+      <button type="button" class="hbk-icon-btn js-toggle-cart" aria-label="Close cart">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="hbk-cart-drawer__shipping">
+      {% render 'free-shipping-bar' %}
+    </div>
+
+    <!-- Scrollable Items Area -->
+    <div class="hbk-cart-drawer__body" id="HbkCartItemsContainer">
+      {% if cart.item_count > 0 %}
+        <div class="hbk-cart-items-list">
+          {% for item in cart.items %}
+            <div class="hbk-cart-item" data-line="{{ forloop.index }}" data-key="{{ item.key }}">
+              <div class="hbk-cart-item__media">
+                <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="80" height="100">
+              </div>
+              <div class="hbk-cart-item__details">
+                <h4 class="hbk-cart-item__title">
+                  <a href="{{ item.url }}">{{ item.product.title }}</a>
+                </h4>
+                {% unless item.product.has_only_default_variant %}
+                  <div class="hbk-cart-item__variant">{{ item.variant.title }}</div>
+                {% endunless %}
+                <div class="hbk-cart-item__price">{{ item.final_price | money }}</div>
+
+                <!-- Quantity Controls -->
+                <div class="hbk-cart-item__actions">
+                  <div class="hbk-qty-stepper">
+                    <button type="button" class="hbk-qty-btn js-qty-change" data-delta="-1" data-key="{{ item.key }}" aria-label="Decrease quantity">-</button>
+                    <span class="hbk-qty-val">{{ item.quantity }}</span>
+                    <button type="button" class="hbk-qty-btn js-qty-change" data-delta="1" data-key="{{ item.key }}" aria-label="Increase quantity">+</button>
+                  </div>
+                  <button type="button" class="hbk-cart-item__remove js-remove-item" data-key="{{ item.key }}">
+                    REMOVE
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <!-- Empty Cart State -->
+        <div class="hbk-cart-empty">
+          <div class="hbk-cart-empty__icon">
+            <img src="{{ 'hbk-logo.svg' | asset_url }}" alt="Empty HBK Cart" width="70" height="70">
+          </div>
+          <h4 class="hbk-cart-empty__title">YOUR STASH IS EMPTY</h4>
+          <p class="hbk-cart-empty__desc">Don't miss the latest Season 2026 limited monster drops.</p>
+          <a href="/collections/all" class="hbk-btn hbk-btn--primary js-toggle-cart">
+            EXPLORE NEW DROPS &rarr;
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- 1-Click In-Cart Upsell Module -->
+    <div class="hbk-cart-upsell" id="HbkCartUpsell">
+      <div class="hbk-cart-upsell__title">🔥 COMPLETE YOUR FIT (SPECIAL OFFER)</div>
+      <div class="hbk-cart-upsell__item">
+        <img src="https://heartbreakkidsli.com/cdn/shop/files/ezgif.com-resize_360x.webp" alt="HBK Mystery Sticker Pack" width="50" height="50" onerror="this.src='{{ 'hbk-logo.svg' | asset_url }}'">
+        <div class="hbk-cart-upsell__info">
+          <strong>HBK Die-Cut Vinyl Sticker Pack</strong>
+          <span>$8.00 <s class="hbk-text-muted">$15.00</s></span>
+        </div>
+        <button type="button" class="hbk-btn hbk-btn--sm hbk-btn--lime js-add-upsell" data-upsell-id="sticker-pack">
+          + ADD
+        </button>
+      </div>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="hbk-cart-drawer__footer">
+      <div class="hbk-cart-subtotal-row">
+        <span>SUBTOTAL</span>
+        <span class="hbk-cart-subtotal-val" id="HbkCartSubtotal">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="hbk-cart-shipping-notice">
+        Taxes & shipping calculated at checkout.
+      </div>
+      <div class="hbk-cart-actions">
+        <form action="/cart" method="post" id="HbkCheckoutForm">
+          <button type="submit" name="checkout" class="hbk-btn hbk-btn--primary hbk-btn--full hbk-btn--glow">
+            CHECKOUT NOW &rarr;
+          </button>
+        </form>
+      </div>
+      <div class="hbk-cart-security">
+        <span>🔒 256-Bit SSL Encrypted • Fast US Dispatch</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": []
+}
+{% endschema %}

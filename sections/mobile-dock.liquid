@@ -1,0 +1,57 @@
+{% comment %}
+  Mobile Dock Navigation Section
+  Replaces the clunky center floating menu button with an app-style bottom dock.
+  Includes anti-collision CSS to prevent third-party widgets from overlapping navigation.
+{% endcomment %}
+
+<nav class="hbk-mobile-dock" id="HbkMobileDock" aria-label="Mobile Bottom Navigation">
+  <div class="hbk-mobile-dock__inner">
+    <!-- Home -->
+    <a href="/" class="hbk-dock-item active" aria-label="Home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>HOME</span>
+    </a>
+
+    <!-- Shop / Collections -->
+    <a href="/collections/all" class="hbk-dock-item js-toggle-menu" aria-label="Shop Catalog">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      <span>SHOP</span>
+    </a>
+
+    <!-- Search -->
+    <button type="button" class="hbk-dock-item js-toggle-search" aria-label="Search">
+      {% render 'icon-search' %}
+      <span>SEARCH</span>
+    </button>
+
+    <!-- Cart Drawer Trigger -->
+    <button type="button" class="hbk-dock-item hbk-dock-item--cart js-toggle-cart" aria-label="Open Cart">
+      <div class="hbk-dock-cart-wrap">
+        {% render 'icon-cart' %}
+        <span class="hbk-dock-badge" id="HbkDockCartCount">{{ cart.item_count | default: 0 }}</span>
+      </div>
+      <span>STASH</span>
+    </button>
+
+    <!-- Account -->
+    <a href="/account" class="hbk-dock-item" aria-label="Customer Account">
+      {% render 'icon-user' %}
+      <span>ACCOUNT</span>
+    </a>
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Mobile Bottom Dock",
+  "settings": []
+}
+{% endschema %}

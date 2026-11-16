@@ -1,0 +1,91 @@
+{% comment %}
+  Collection Grid Section (Single Collection / Category Page)
+  Renders at /collections/<handle> (e.g., /collections/all, /collections/hoodies, etc.)
+  Solves the critical issue of products missing titles and prices.
+{% endcomment %}
+
+<section class="hbk-section hbk-collection-page" id="HbkCollectionGrid">
+  <div class="hbk-container">
+    <!-- Collection Banner Header -->
+    <div class="hbk-collection-banner">
+      <div class="hbk-section-tag">ARCHIVE // DROP CATALOG</div>
+      <h1 class="hbk-collection-banner__title">{{ collection.title | default: 'ALL HBK DROPS' }}</h1>
+      {% if collection.description != blank %}
+        <div class="hbk-collection-banner__desc">{{ collection.description }}</div>
+      {% endif %}
+      <div class="hbk-collection-banner__count">{{ collection.products_count | default: 0 }} ITEMS AVAILABLE</div>
+    </div>
+
+    <!-- Toolbar: Filter Pills & Sort Dropdown -->
+    <div class="hbk-collection-toolbar">
+      <div class="hbk-filter-pills">
+        <a href="/collections" class="hbk-pill">ALL CATEGORIES</a>
+        <a href="/collections/all" class="hbk-pill {% if collection.handle == 'all' or collection == blank %}active{% endif %}">ALL DROPS</a>
+        <a href="/collections/hoodies" class="hbk-pill {% if collection.handle == 'hoodies' %}active{% endif %}">HOODIES</a>
+        <a href="/collections/t-shirts" class="hbk-pill {% if collection.handle == 't-shirts' %}active{% endif %}">TEES</a>
+        <a href="/collections/heartbreakkids" class="hbk-pill {% if collection.handle == 'heartbreakkids' %}active{% endif %}">SWEATSUITS</a>
+        <a href="/collections/kids" class="hbk-pill {% if collection.handle == 'kids' %}active{% endif %}">KIDS</a>
+        <a href="/collections/hbk-accessories" class="hbk-pill {% if collection.handle == 'hbk-accessories' %}active{% endif %}">ACCESSORIES</a>
+      </div>
+
+      <div class="hbk-sort-wrap">
+        <label for="HbkSortBy" class="hbk-sort-label">SORT:</label>
+        <select id="HbkSortBy" class="hbk-sort-select" onchange="location = this.value;">
+          <option value="?sort_by=manual">Featured Drops</option>
+          <option value="?sort_by=best-selling">Best Sellers</option>
+          <option value="?sort_by=price-ascending">Price: Low to High</option>
+          <option value="?sort_by=price-descending">Price: High to Low</option>
+          <option value="?sort_by=created-descending">Latest Drops</option>
+        </select>
+      </div>
+    </div>
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      <!-- Product Grid -->
+      <div class="hbk-products-grid">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% else %}
+          <div class="hbk-no-products">
+            <div class="hbk-no-products__icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3>NO PRODUCTS FOUND</h3>
+            <p>Check back soon or explore our other collections and drops.</p>
+            <div class="hbk-no-products__actions">
+              <a href="/collections/all" class="hbk-btn hbk-btn--primary">VIEW ALL DROPS</a>
+              <a href="/collections" class="hbk-btn hbk-btn--outline">BROWSE ALL CATEGORIES</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% if paginate.pages > 1 %}
+        <div class="hbk-pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}

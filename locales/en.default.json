@@ -1,0 +1,33 @@
+{
+  "general": {
+    "search": "Search HBK Drops...",
+    "close": "Close",
+    "cart": "Cart",
+    "menu": "Menu",
+    "free_shipping_unlocked": "🎉 Congratulations! You have unlocked FREE Express Shipping!",
+    "free_shipping_needed": "Add {{ amount }} more to unlock FREE Express Shipping!"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "limited_drop": "LIMITED DROP",
+      "quick_add": "Quick Add",
+      "select_size": "Select Size",
+      "free_shipping": "Free Shipping on Orders Over $75",
+      "returns": "14-Day Hassle-Free Returns"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your HBK Stash",
+      "empty": "Your cart is currently empty.",
+      "continue_shopping": "Explore New Drops",
+      "subtotal": "Subtotal",
+      "checkout": "Proceed to Checkout",
+      "shipping_at_checkout": "Taxes and shipping calculated at checkout",
+      "remove": "Remove"
+    }
+  }
+}

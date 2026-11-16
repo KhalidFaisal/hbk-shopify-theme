@@ -1,0 +1,25 @@
+{% comment %}
+  Free Shipping Progress Bar Snippet
+  Accepts:
+  - threshold: number in dollars (default: settings.free_shipping_threshold or 75)
+{% endcomment %}
+{% assign limit = settings.free_shipping_threshold | default: 75 | times: 100 %}
+{% assign cart_total = cart.total_price | default: 0 %}
+
+<div class="hbk-shipping-meter" data-threshold="{{ limit }}" id="HbkShippingMeter">
+  <div class="hbk-shipping-meter__text" id="HbkShippingText">
+    {% if cart_total >= limit %}
+      <span class="hbk-shipping-meter__unlocked">
+        <span class="hbk-badge hbk-badge--glow">UNLOCKED</span> You earned <strong>FREE Express Shipping</strong>!
+      </span>
+    {% else %}
+      {% assign remaining = limit | minus: cart_total | money %}
+      <span>Add <strong>{{ remaining }}</strong> more for <strong>FREE Express Shipping</strong>!</span>
+    {% endif %}
+  </div>
+  <div class="hbk-shipping-meter__track">
+    {% assign percentage = cart_total | times: 100 | divided_by: limit %}
+    {% if percentage > 100 %}{% assign percentage = 100 %}{% endif %}
+    <div class="hbk-shipping-meter__fill" id="HbkShippingFill" style="width: {{ percentage }}%;"></div>
+  </div>
+</div>

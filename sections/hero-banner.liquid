@@ -1,0 +1,102 @@
+{% comment %}
+  Hero Banner Section
+{% endcomment %}
+
+<section class="hbk-hero" id="HbkHero">
+  <!-- Hero Background Media with Dark Streetwear Overlay -->
+  <div class="hbk-hero__bg">
+    {% if section.settings.image %}
+      <img 
+        src="{{ section.settings.image | image_url: width: 2000 }}" 
+        alt="{{ section.settings.heading | escape }}"
+        class="hbk-hero__img"
+      >
+    {% else %}
+      <div class="hbk-hero__fallback-bg"></div>
+    {% endif %}
+    <div class="hbk-hero__overlay"></div>
+  </div>
+
+  <div class="hbk-container hbk-hero__container">
+    <div class="hbk-hero__content">
+      <!-- Drop Status Badge -->
+      <div class="hbk-hero__badge">
+        <span class="hbk-pulse-dot"></span>
+        <span class="hbk-hero__badge-text">LIMITED EDITION DROP // 2026 DROP 04</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hbk-hero__title">
+        {{ section.settings.heading | default: 'HBK MONSTER COLLECTION' }}
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="hbk-hero__sub">
+        {{ section.settings.subheading | default: 'Born in Long Island. Driven by raw street hustle and iconic graphic energy.' }}
+      </p>
+
+      <!-- Dual Action Buttons -->
+      <div class="hbk-hero__actions">
+        <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="hbk-btn hbk-btn--primary hbk-btn--glow">
+          {{ section.settings.button_text | default: 'SHOP NEW DROP' }}
+        </a>
+        <a href="#HbkStory" class="hbk-btn hbk-btn--glass">
+          OUR STORY
+        </a>
+      </div>
+
+      <!-- Urgency Drop Bar -->
+      <div class="hbk-hero__countdown-box">
+        <div class="hbk-countdown-title">NEXT VAULT DROP CLOSES IN:</div>
+        <div class="hbk-countdown-timer" id="HbkCountdownTimer" data-hours="48">
+          <div class="hbk-time-block"><span class="hbk-time-val" id="TimerHours">47</span><span class="hbk-time-label">HRS</span></div>
+          <span class="hbk-time-sep">:</span>
+          <div class="hbk-time-block"><span class="hbk-time-val" id="TimerMins">59</span><span class="hbk-time-label">MIN</span></div>
+          <span class="hbk-time-sep">:</span>
+          <div class="hbk-time-block"><span class="hbk-time-val" id="TimerSecs">59</span><span class="hbk-time-label">SEC</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HBK MONSTER COLLECTION"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Born in Long Island. Driven by raw street hustle and iconic graphic energy."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Primary Button Text",
+      "default": "SHOP NEW DROP"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

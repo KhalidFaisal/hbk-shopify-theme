@@ -1,0 +1,39 @@
+{% comment %}
+  Drop Ticker Section
+  Continuous scrolling hype marquee with HBK monster icon separators.
+{% endcomment %}
+
+<div class="hbk-ticker">
+  <div class="hbk-ticker__track">
+    {% for i in (1..6) %}
+      <div class="hbk-ticker__item">
+        <img src="{{ 'hbk-logo.svg' | asset_url }}" alt="HBK" class="hbk-ticker__icon" width="28" height="28">
+        <span>LONG ISLAND ORIGINALS</span>
+      </div>
+      <div class="hbk-ticker__item">
+        <span class="hbk-ticker__star">★</span>
+        <span>LIMITED RUN DROPS</span>
+      </div>
+      <div class="hbk-ticker__item">
+        <img src="{{ 'hbk-logo.svg' | asset_url }}" alt="HBK" class="hbk-ticker__icon" width="28" height="28">
+        <span>AUTHENTIC STREETWEAR</span>
+      </div>
+      <div class="hbk-ticker__item">
+        <span class="hbk-ticker__star">★</span>
+        <span>FREE US SHIPPING OVER $75</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Drop Ticker",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Drop Ticker"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "hero-banner",
+      "settings": {
+        "heading": "404 // DROP NOT FOUND",
+        "subheading": "Looks like this piece has been moved to the vault.",
+        "button_text": "BACK TO LATEST DROPS",
+        "button_link": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

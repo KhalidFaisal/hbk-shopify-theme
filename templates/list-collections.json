@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "tag": "ARCHIVE // DROP DIRECTORY",
+        "title": "ALL HBK COLLECTIONS",
+        "description": "Explore iconic silhouettes, heavyweight fleece, matching sets, and limited vault drops across all categories.",
+        "display_type": "all",
+        "sort": "alphabetical",
+        "columns_desktop": 4,
+        "collections_per_page": 16,
+        "filter_empty": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-grid",
+      "settings": {
+        "title": "EXPLORE POPULAR DROPS",
+        "products_to_show": 8
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
