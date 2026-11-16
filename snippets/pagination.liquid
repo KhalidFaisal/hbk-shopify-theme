@@ -1,0 +1,36 @@
+{% comment %}
+  Pagination Snippet
+  Renders clean, single-layer pagination buttons without Shopify default wrapper spans.
+{% endcomment %}
+
+{% if paginate.pages > 1 %}
+  <nav class="hbk-pagination" aria-label="Pagination">
+    {% if paginate.previous %}
+      <a href="{{ paginate.previous.url }}" class="hbk-pagination__item hbk-pagination__arrow" aria-label="Previous page">
+        &larr; Prev
+      </a>
+    {% endif %}
+
+    {% for part in paginate.parts %}
+      {% if part.is_link %}
+        <a href="{{ part.url }}" class="hbk-pagination__item" aria-label="Page {{ part.title }}">
+          {{ part.title }}
+        </a>
+      {% elsif part.title == paginate.current_page %}
+        <span class="hbk-pagination__item current" aria-current="page">
+          {{ part.title }}
+        </span>
+      {% else %}
+        <span class="hbk-pagination__item deco">
+          {{ part.title }}
+        </span>
+      {% endif %}
+    {% endfor %}
+
+    {% if paginate.next %}
+      <a href="{{ paginate.next.url }}" class="hbk-pagination__item hbk-pagination__arrow" aria-label="Next page">
+        Next &rarr;
+      </a>
+    {% endif %}
+  </nav>
+{% endif %}

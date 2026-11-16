@@ -64,11 +64,7 @@
       </div>
 
       <!-- Pagination -->
-      {% if paginate.pages > 1 %}
-        <div class="hbk-pagination">
-          {{ paginate | default_pagination }}
-        </div>
-      {% endif %}
+      {% render 'pagination', paginate: paginate %}
     {% endpaginate %}
   </div>
 </section>

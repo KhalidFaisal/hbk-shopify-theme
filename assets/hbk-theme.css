@@ -2832,34 +2832,70 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-top: 48px;
+  gap: 10px;
+  margin-top: 56px;
+  flex-wrap: wrap;
 }
 
-.hbk-pagination a,
+/* Reset any wrapping spans (e.g. from Shopify default_pagination) */
 .hbk-pagination span {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+}
+
+/* Unified single-layer pagination button */
+.hbk-pagination a,
+.hbk-pagination .hbk-pagination__item,
+.hbk-pagination span.current,
+.hbk-pagination .current {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 16px;
   border-radius: var(--radius-sm);
   background: var(--hbk-surface);
   border: 1px solid var(--hbk-border);
   color: var(--hbk-text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
   text-decoration: none;
   transition: all var(--transition-fast);
+  box-sizing: border-box;
+  user-select: none;
 }
 
-.hbk-pagination a:hover {
-  color: var(--hbk-text);
-  border-color: rgba(255, 255, 255, 0.4);
+.hbk-pagination a:hover,
+.hbk-pagination .hbk-pagination__item:hover {
+  color: #ffffff;
+  border-color: rgba(255, 42, 77, 0.45);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+.hbk-pagination span.current,
 .hbk-pagination .current {
-  background: var(--hbk-red);
-  color: #fff;
-  border-color: var(--hbk-red);
-  box-shadow: 0 0 12px rgba(255, 42, 77, 0.35);
+  background: var(--hbk-red) !important;
+  color: #ffffff !important;
+  border-color: var(--hbk-red) !important;
+  box-shadow: 0 0 16px rgba(255, 42, 77, 0.45) !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+.hbk-pagination .deco {
+  background: transparent !important;
+  border: none !important;
+  color: var(--hbk-text-muted);
+  padding: 0 6px;
 }
 
 @media (max-width: 768px) {
