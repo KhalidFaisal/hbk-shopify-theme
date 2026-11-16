@@ -78,7 +78,7 @@ body {
   }
 }
 
-/* Enforce strict layout containment across all sections */
+/* Enforce strict layout containment across all sections (excluding header to allow dropdowns) */
 .hbk-main,
 .hbk-hero,
 .hbk-section,
@@ -87,8 +87,7 @@ body {
 .hbk-ugc,
 .hbk-footer,
 .hbk-announcement-bar,
-.hbk-ticker,
-.hbk-header {
+.hbk-ticker {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -343,15 +342,25 @@ button {
 .hbk-header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  background: rgba(12, 12, 14, 0.88);
+  z-index: 500;
+  background: rgba(12, 12, 14, 0.92);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--hbk-border);
   height: var(--header-height);
   width: 100%;
   max-width: 100%;
+  overflow: visible !important;
   transition: all var(--transition-fast);
+}
+
+#shopify-section-header,
+.shopify-section-header,
+.hbk-header__inner,
+.hbk-header__nav--desktop,
+.hbk-nav-list,
+.hbk-nav-item {
+  overflow: visible !important;
 }
 
 .hbk-header__inner {
@@ -409,40 +418,60 @@ button {
   color: var(--hbk-red);
 }
 
-.hbk-has-dropdown:hover .hbk-dropdown {
+.hbk-has-dropdown {
+  position: relative;
+}
+
+.hbk-has-dropdown:hover .hbk-dropdown,
+.hbk-has-dropdown:focus-within .hbk-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .hbk-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 220px;
+  min-width: 230px;
+  background: #141418;
   background: var(--hbk-surface);
   border: 1px solid var(--hbk-border);
   border-radius: var(--radius-sm);
-  padding: 12px 0;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  padding: 10px 0;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 1px rgba(255, 255, 255, 0.12);
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
-  transition: all var(--transition-fast);
-  z-index: 50;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+
+/* Hover bridge to prevent losing hover when moving mouse down into dropdown */
+.hbk-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
 }
 
 .hbk-dropdown-link {
   display: block;
-  padding: 10px 20px;
+  padding: 11px 20px;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--hbk-text-muted);
+  transition: all var(--transition-fast);
 }
 
 .hbk-dropdown-link:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
+  padding-left: 24px;
 }
 
 /* Center Mascot Logo */
